@@ -22,7 +22,12 @@ class App extends React.Component {
               meals: [
                 {
                   name: 'Test meal :)',
-                  dishes: []
+                  dishes: [
+                    {
+                      name: 'This a tasty test dish!',
+                      recipe: []
+                    }
+                  ]
                 }
               ],
             },
@@ -792,17 +797,46 @@ class App extends React.Component {
 
   // Add a dish to a specific meal
   addDish(weekName, dayName, mealName, newDishObject){
-    console.log('------------------------------------ addDish()');
-    console.log('<App/>.addDish << weekName:', weekName);
-    console.log('<App/>.addDish << dayName:', dayName);
-    console.log('<App/>.addDish << mealName:', mealName);
-    console.log('<App/>.addDish << newDishObject:', newDishObject);
-
     // Get previous state
     const prevState = this.state.plans;
 
-        alert('new dish injection not finished!')
+    // Duplicate state and inject meal
+    const newState = prevState.map(weekObject => {
+      if (weekObject.name === weekName) {
+        return({ // If it's the same week, return a week object:
+          name: weekName,
+          weekPlan: weekObject.weekPlan.map(dayObject => {
+            if (dayObject.day === dayName) {
+              return({ // If it's the same day, return a day object:
+                day: dayName,
+                meals: dayObject.meals.map(mealObject => {
+                  if (mealObject.name === mealName) {
+                    // If it's the same meal, add dish to current dish array:
+                    let newDishArray = mealObject.dishes;
+                    newDishArray.push(newDishObject);
+                    // and return the updated dish object
+                    return { name: mealName, dishes: newDishArray }
+                  } else {
+                    return mealObject
+                  }
+                })
+              })
+            } else {
+              return dayObject;
+            }
+          })
+        });
+      } else {
+        return weekObject;
+      }
+    });
+    
+    // Update state
+    this.setState({ plans: newState });
 
+    // don't worry about existing dishes,
+    // you will handle this cases with,
+    // updateDish() or similar
   }
 
   // Change the active tab shown on screen

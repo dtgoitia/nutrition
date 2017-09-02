@@ -64,10 +64,9 @@ class Dish extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      devMode: false,   // --- REMOVE THIS -------------------------------- REMOVE THIS ------
       name: this.props.dish.name,     // string with dish name
-      editionModeOn: false,
       recipe: this.props.dish.recipe, // array with ingredients
+      editionModeOn: false,
     }
 
     this.updateDishName = this.updateDishName.bind(this);
@@ -96,8 +95,6 @@ class Dish extends React.Component {
     // console.log('this.state:', this.state);
     const dish = this.props.dish;
     if (
-      // this.state.devMode === false &&
-
       typeof(dish) === 'object'
       && dish.name
       && dish.recipe
@@ -130,7 +127,12 @@ class Dish extends React.Component {
         </div>
       )
     } else {
-      return <div>There is no info in this dish!</div>
+      return(
+        <div>
+          <h5>{dish.name}</h5>
+          <p>There is no info in this dish!</p>
+        </div>
+      )
     }
     
   }

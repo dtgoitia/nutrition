@@ -87,6 +87,7 @@ class Meal extends React.Component {
           {meal.dishes.map((dish,i)=>{
             return <Dish dish={dish} key={i} />
           })}
+          <AddDish handleAddDishSubmit={this.handleAddDishSubmit}/>
         </div>
       );
     } else {

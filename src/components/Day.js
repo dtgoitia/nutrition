@@ -90,6 +90,7 @@ class Day extends React.Component {
                 meal={meal}
                 key={i}
                 addDish={this.props.addDish}
+                addIngredient={this.props.addIngredient}
                 day={plan.day}
                 week={this.props.weekName}
               />

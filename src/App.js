@@ -814,8 +814,61 @@ class App extends React.Component {
                     // If it's the same meal, add dish to current dish array:
                     let newDishArray = mealObject.dishes;
                     newDishArray.push(newDishObject);
-                    // and return the updated dish object
+                    // and return the updated meal object
                     return { name: mealName, dishes: newDishArray }
+                  } else {
+                    return mealObject
+                  }
+                })
+              })
+            } else {
+              return dayObject;
+            }
+          })
+        });
+      } else {
+        return weekObject;
+      }
+    });
+    
+    // Update state
+    this.setState({ plans: newState });
+
+    // don't worry about existing dishes,
+    // you will handle this cases with,
+    // updateDish() or similar
+  }
+
+  // Add an ingredient to a specific dish
+  addIngredient(weekName, dayName, mealName, dishName, newIngredientObject) {
+    // Get previous state
+    const prevState = this.state.plans;
+
+    // Duplicate state and inject meal
+    const newState = prevState.map(weekObject => {
+      if (weekObject.name === weekName) {
+        return({ // If it's the same week, return a week object:
+          name: weekName,
+          weekPlan: weekObject.weekPlan.map(dayObject => {
+            if (dayObject.day === dayName) {
+              return({ // If it's the same day, return a day object:
+                day: dayName,
+                meals: dayObject.meals.map(mealObject => {
+                  if (mealObject.name === mealName) {
+                    return({ // If it's the same meal, return a dish object:
+                      name: mealName,
+                      dishes: mealObject.dishes.map(dishObject => {
+                        if (dishObject.name === dishName) {
+                          // If it's the same dish, add dish to current ingredients array (recipe):
+                          let newIngredientsArray = dishObject.recipe;
+                          newIngredientsArray.push(newIngredientObject);
+                          // and return the updated dish object:
+                          return { name: dishObject.name, recipe: newIngredientsArray }
+                        } else {
+                          return dishObject
+                        }
+                      })
+                    })
                   } else {
                     return mealObject
                   }
@@ -924,6 +977,7 @@ class App extends React.Component {
             addWeek={this.addWeek}
             addMeal={this.addMeal}
             addDish={this.addDish}
+            addIngredient={this.addIngredient}
           /> : null
         }
       </div>

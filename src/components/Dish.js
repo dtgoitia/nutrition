@@ -29,13 +29,72 @@ class DishName extends React.Component {
   }
 }
 
-class DishaddNewIngredientButton extends React.Component {
+// class AddIngredientButton extends React.Component {
+  //   render() {
+  //     return (
+  //       <div
+  //         className='addIngredientButton'
+  //         onClick={this.props.handleAddIngredientSubmit.bind(null,'kaka')}
+  //       >
+  //         +
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // class AddIngredient extends React.Component {
+  //   render() {
+  //     return (
+  //       <div
+  //         className='addIngredientButton'
+  //         onClick={this.props.handleAddIngredientSubmit.bind(null,'kaka')}
+  //       >
+  //         <input />
+  //       </div>
+  //     );
+  //   }
+  // }
+class AddIngredient extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      value: this.props.value ? this.props.value : ''
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    // Pass the name of the ingredient (this.state.value) to <Dish />
+    // to be added as a new ingredient
+    this.props.handleAddIngredientSubmit(this.state.value)
+    
+    // Reset input value
+    this.setState({value: ''})
+
+    // Prevent page from reloading
+    event.preventDefault();
+  }
+
   render() {
     return (
-      <div
-        onClick={this.props.addNewIngredient.bind(null,'kaka')}
-      >
-        +
+      <div className='addIngredient'>
+        <form 
+          onSubmit={this.handleSubmit}
+        >
+          <input
+            type='text'
+            name='AddIngredientInput'
+            placeholder='Add ingredient!'
+            value={this.state.value}
+            onChange={this.handleChange.bind(null)}
+          />
+        </form>
       </div>
     );
   }
@@ -70,7 +129,7 @@ class Dish extends React.Component {
 
     this.updateDishName = this.updateDishName.bind(this);
     this.changeEditionMode = this.changeEditionMode.bind(this);
-    this.addNewIngredient = this.addNewIngredient.bind(this);
+    this.handleAddIngredientSubmit = this.handleAddIngredientSubmit.bind(this);
   }
 
   updateDishName(name){
@@ -86,12 +145,23 @@ class Dish extends React.Component {
     }
   }
 
-  addNewIngredient(ingredient){
-    console.log('adding ingredient ' + ingredient + '!')
+  // Recieve new ingredient name from child <AddIngredient /> and pass all the necessary
+  // information to <App /> to update <App /> state to add the new ingredient
+  handleAddIngredientSubmit(newIngredientName){
+    console.log('handleAddIngredientSubmit ' + newIngredientName + '!')
+    this.props.addIngredient(
+      this.props.week,          // week name
+      this.props.day,           // day name
+      this.props.meal,          // meal name
+      this.state.name,          // dish name
+      {                         // new ingredient object:
+        name: newIngredientName //  - ingredient name
+      }
+    );
+    // Do not use here event.preventDefault() !!
   }
 
   render(){
-    // console.log('this.state:', this.state);
     const dish = this.props.dish;
     if (
       typeof(dish) === 'object'
@@ -111,12 +181,13 @@ class Dish extends React.Component {
           </div>
           {
             this.state.editionModeOn === true
-            ? <DishaddNewIngredientButton addNewIngredient={this.addNewIngredient} />
+            ? <AddIngredient handleAddIngredientSubmit={this.handleAddIngredientSubmit} />
             : null
           }
           {
             this.state.editionModeOn === true
             ? <div className='dishIngredientList'>
+              this is the ingredient list:
                 <ul>
                   {this.state.recipe.map((ingredient,i)=>{
                     return <DishIngredient ingredient={ingredient} key={i} />

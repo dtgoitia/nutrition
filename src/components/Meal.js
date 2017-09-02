@@ -85,7 +85,17 @@ class Meal extends React.Component {
           <div className='mealBar'></div>
           <h4>{meal.name}</h4>
           {meal.dishes.map((dish,i)=>{
-            return <Dish dish={dish} key={i} />
+            return(
+              <Dish
+                dish={dish}
+                key={i}
+                addIngredient={this.props.addIngredient}
+                meal={meal.name}
+                day={this.props.day}
+                week={this.props.week}
+
+              />
+            )
           })}
           <AddDish handleAddDishSubmit={this.handleAddDishSubmit}/>
         </div>

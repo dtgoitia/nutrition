@@ -36,6 +36,7 @@ class Week extends React.Component {
                 selectDay={this.selectDay}
                 addMeal={this.props.addMeal}
                 addDish={this.props.addDish}
+                addIngredient={this.props.addIngredient}
               />
             )
           })}

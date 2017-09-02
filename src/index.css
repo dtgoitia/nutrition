@@ -259,32 +259,37 @@ h3, h4 {
   text-align: left;
 }
 .dishTopMenu {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 42.05px;
+  padding: 0px 5px 0px 5px;
 }
-.editSymbolSvg {
-  padding: 5px;
-  height: 20px;
-}
-.editSymbolSvg:hover {
-  fill: grey;
-}
-.dish input[type=text] {
+.dishTopMenu input[type=text] {
   grid-column: 1;
   grid-row: 1;
 
   padding: 5px 5px 5px 8px;
   font-size: 110%;
 
-  color: var(--color-p);
+  color: rgba(255, 255, 255, 0.90);
   border: 0px;
   border-bottom: 1px solid rgba(128, 128, 128, 0.3);
-  width: 80%;
+  /* width: 80%; */
   background-color: var(--color-body-background);
 }
-.editDishButton {
-  background-color: green;
+.dishTopMenu .editSymbolSvg {
+  margin: 5px 5px 5px 10px;
+  padding: 5px;
+  height: 17px;
   
+  fill: rgba(128, 128, 128, 0.60);
 }
+.dishTopMenu .editSymbolSvg:hover {
+  grid-column: 2;
+  grid-row: 1;
+
+  fill: white;
+}
+
 .dishIngredientList {
   grid-template-columns: 100px 100px auto;
   padding: 5px;

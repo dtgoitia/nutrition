@@ -5,7 +5,7 @@ class EditButton extends React.Component {
     return (
         <svg
           className='editSymbolSvg'
-          fill='white'
+          fill={this.props.fill ? this.props.fill : 'white'}
           viewBox="0 0 604.536 602.757"
           onClick={this.props.changeEditionMode.bind(null)}
         >

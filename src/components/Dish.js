@@ -21,7 +21,6 @@ class DishName extends React.Component {
       <input
         type='text'
         name='dishName'
-        className='dishName'
         placeholder='E.g.: "Tuna and pasta salad"'
         value={this.state.name}
         onChange={this.handleChange.bind(null)}
@@ -100,13 +99,15 @@ class Dish extends React.Component {
       && dish.recipe
       && typeof(dish.name) === 'string'
       && Array.isArray(dish.recipe) === true
-      && dish.recipe.length > 0
+      // && dish.recipe.length > 0
     ) {
       return (
         <div className='dish'>
           <div className='dishTopMenu'>
-            <DishName name={this.props.name} updateDishName={this.updateDishName} />
-            <EditButton changeEditionMode={this.changeEditionMode} />
+            <DishName name={dish.name} updateDishName={this.updateDishName} />
+            <EditButton
+              changeEditionMode={this.changeEditionMode}
+            />
           </div>
           {
             this.state.editionModeOn === true

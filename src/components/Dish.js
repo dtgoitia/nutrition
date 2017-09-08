@@ -29,19 +29,77 @@ class DishName extends React.Component {
   }
 }
 
+class IngredientSearchResultTray extends React.Component {
+  render() {
+    // If there is result, show them. Otherwise, show loading gif
+    if (this.props.resultAvailable === true) {
+      // Show results
+      if (this.props.results) {
+        console.log('results:', this.props.results);
+      } else {
+        console.log('no results yet');
+        
+      }
+      
+      return (
+        <div className='ingredientResultTray'>
+          RESULTS FOUND!
+          <datalist id='ingredientResultList'>
+            <select>
+              <option value='first result' />
+              <option value='first result 2' />
+              <option value='Butter' />
+            </select>
+          </datalist>
+        </div>
+      );
+    } else {
+      // Show giff
+      return (
+        <div className='ingredientResultTray'>
+          LOADING...
+        </div>
+      );
+    }
+  }
+}
+
 class AddIngredient extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      value: this.props.value ? this.props.value : ''
+      value: this.props.value ? this.props.value : '',
+      resultAvailable: false
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleResults = this.handleResults.bind(this);
   }
   
   handleChange(event) {
-    this.setState({value: event.target.value});
+    // Get input value
+    const inputValue = event.target.value;
+    
+    // Update state.value
+    this.setState({value: inputValue});
+
+    // If there is anything written in the input, show suggestion
+    // tray. Otherwise, close suggestion tray
+    const searchLength = inputValue.length;
+    if (searchLength > 0) {
+      // Show suggestion tray
+      this.setState({showSuggestions: true});
+      // Get data from NDBno
+      this.props.getIngredientNdbno(
+        this.props.privateData.apiKey,  // API key
+        inputValue,                     // Value to search
+        this.handleResults              // Function to handle search results
+      );
+    } else {
+      // Close suggestion tray
+      this.setState({showSuggestions: false});
+    }    
   }
 
   handleSubmit(event) {
@@ -56,6 +114,14 @@ class AddIngredient extends React.Component {
     event.preventDefault();
   }
 
+  // Store results within <AddIngredient /> state
+  handleResults(results){
+    this.setState({
+      resultAvailable: true,
+      results: results
+    });
+  }
+
   render() {
     return (
       <div className='addIngredient'>
@@ -65,10 +131,19 @@ class AddIngredient extends React.Component {
           <input
             type='text'
             name='AddIngredientInput'
+            list='ingredientResultList'
             placeholder='Add ingredient!'
             value={this.state.value}
             onChange={this.handleChange.bind(null)}
           />
+          { this.state.showSuggestions === true
+            ? <IngredientSearchResultTray
+                resultAvailable={this.state.resultAvailable}
+                results={this.state.results}
+              />
+            : null
+          }
+      
         </form>
       </div>
     );
@@ -156,7 +231,11 @@ class Dish extends React.Component {
           </div>
           {
             this.state.editionModeOn === true
-            ? <AddIngredient handleAddIngredientSubmit={this.handleAddIngredientSubmit} />
+            ? <AddIngredient
+                handleAddIngredientSubmit={this.handleAddIngredientSubmit}
+                getIngredientNdbno={this.props.getIngredientNdbno}
+                privateData={this.props.privateData}
+              />
             : null
           }
           {

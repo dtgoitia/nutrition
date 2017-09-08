@@ -93,7 +93,8 @@ class Meal extends React.Component {
                 meal={meal.name}
                 day={this.props.day}
                 week={this.props.week}
-
+                getIngredientNdbno={this.props.getIngredientNdbno}
+                privateData={this.props.privateData}
               />
             )
           })}

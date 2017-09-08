@@ -979,6 +979,8 @@ class App extends React.Component {
             addMeal={this.addMeal}
             addDish={this.addDish}
             addIngredient={this.addIngredient}
+            getIngredientNdbno={utils.getIngredientNdbno}
+            privateData={privateData}
           /> : null
         }
       </div>

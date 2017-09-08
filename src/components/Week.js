@@ -37,6 +37,8 @@ class Week extends React.Component {
                 addMeal={this.props.addMeal}
                 addDish={this.props.addDish}
                 addIngredient={this.props.addIngredient}
+                getIngredientNdbno={this.props.getIngredientNdbno}
+                privateData={this.props.privateData}
               />
             )
           })}

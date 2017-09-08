@@ -1,6 +1,6 @@
 :root {
   --gridCurrent: var(--gridNone);
-  --gridExpansion: 40%;
+  --gridExpansion: 60%;
   --gridNone:      1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   --gridMonday:    var(--gridExpansion) 1fr 1fr 1fr 1fr 1fr 1fr;
   --gridTuesday:   1fr var(--gridExpansion) 1fr 1fr 1fr 1fr 1fr;
@@ -317,4 +317,10 @@ h3, h4 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.51);
   text-align: left;
   color: white;
+}
+.ingredientOptions {
+  padding: 10px;
+}
+.ingredientOption {
+  background-color: yellow;
 }

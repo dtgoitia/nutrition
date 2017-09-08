@@ -93,6 +93,8 @@ class Day extends React.Component {
                 addIngredient={this.props.addIngredient}
                 day={plan.day}
                 week={this.props.weekName}
+                getIngredientNdbno={this.props.getIngredientNdbno}
+                privateData={this.props.privateData}
               />
             );
           })}

@@ -29,31 +29,6 @@ class DishName extends React.Component {
   }
 }
 
-// class AddIngredientButton extends React.Component {
-  //   render() {
-  //     return (
-  //       <div
-  //         className='addIngredientButton'
-  //         onClick={this.props.handleAddIngredientSubmit.bind(null,'kaka')}
-  //       >
-  //         +
-  //       </div>
-  //     );
-  //   }
-  // }
-
-  // class AddIngredient extends React.Component {
-  //   render() {
-  //     return (
-  //       <div
-  //         className='addIngredientButton'
-  //         onClick={this.props.handleAddIngredientSubmit.bind(null,'kaka')}
-  //       >
-  //         <input />
-  //       </div>
-  //     );
-  //   }
-  // }
 class AddIngredient extends React.Component {
   constructor(props){
     super(props)
@@ -187,7 +162,6 @@ class Dish extends React.Component {
           {
             this.state.editionModeOn === true
             ? <div className='dishIngredientList'>
-              this is the ingredient list:
                 <ul>
                   {this.state.recipe.map((ingredient,i)=>{
                     return <DishIngredient ingredient={ingredient} key={i} />

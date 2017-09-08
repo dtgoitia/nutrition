@@ -706,6 +706,7 @@ class App extends React.Component {
     this.addWeek = this.addWeek.bind(this);
     this.addMeal = this.addMeal.bind(this);
     this.addDish = this.addDish.bind(this);
+    this.addIngredient = this.addIngredient.bind(this);
     this.changeActiveTab = this.changeActiveTab.bind(this);
     this.save = this.save.bind(this);
 

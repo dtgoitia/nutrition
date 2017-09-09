@@ -4,30 +4,6 @@ import privateData from './../privateData';
 import NavigationBar from './components/NavigationBar';
 import Schedules from './components/Schedules';
 import IngredientsSearch from './components/IngredientsSearch';
-import ReactDatalist from 'react-datalist';
-
-class Test extends React.Component {
-  constructor(props){
-    super(props)
-    this.state = {}
-
-    this.handleSelect = this.handleSelect.bind(this);
-  }
-
-  handleSelect(selected){
-    console.log('Test selected value:', selected);
-  }
-
-  render() {
-    return (
-      <ReactDatalist
-        list="fruit"
-        options={['apple','orange','pear','pineapple','melon']}
-        onOptionSelected={this.handleSelect}
-      />
-    );
-  }
-}
 
 class App extends React.Component {
   constructor(props){
@@ -983,33 +959,32 @@ class App extends React.Component {
 
     // console.log('App > this.state:', this.state);
     // console.log('App > this.state.plans[0].weekPlan[0].meals:', this.state.plans[0].weekPlan[0].meals);
-    // return (
-    //   <div className="App">
-    //     <NavigationBar activeTab={this.state.activeTab} changeActiveTab={this.changeActiveTab} />
-    //     {
-    //       this.state.activeTab === 'Ingredient Search' ?
-    //       <IngredientsSearch
-    //         getIngredientNdbno={utils.getIngredientNdbno}
-    //         privateData={privateData}
-    //         addIngredientsToMyCollection={this.addIngredientsToMyCollection}
-    //       /> : null
-    //     }
-    //     {
-    //       this.state.activeTab === 'Schedules' ?
-    //       <Schedules
-    //         ingredientList={this.state.ingredientList}
-    //         plans={this.state.plans}
-    //         addWeek={this.addWeek}
-    //         addMeal={this.addMeal}
-    //         addDish={this.addDish}
-    //         addIngredient={this.addIngredient}
-    //         getIngredientNdbno={utils.getIngredientNdbno}
-    //         privateData={privateData}
-    //       /> : null
-    //     }
-    //   </div>
-    // );
-    return(<Test/>)
+    return (
+      <div className="App">
+        <NavigationBar activeTab={this.state.activeTab} changeActiveTab={this.changeActiveTab} />
+        {
+          this.state.activeTab === 'Ingredient Search' ?
+          <IngredientsSearch
+            getIngredientNdbno={utils.getIngredientNdbno}
+            privateData={privateData}
+            addIngredientsToMyCollection={this.addIngredientsToMyCollection}
+          /> : null
+        }
+        {
+          this.state.activeTab === 'Schedules' ?
+          <Schedules
+            ingredientList={this.state.ingredientList}
+            plans={this.state.plans}
+            addWeek={this.addWeek}
+            addMeal={this.addMeal}
+            addDish={this.addDish}
+            addIngredient={this.addIngredient}
+            getIngredientNdbno={utils.getIngredientNdbno}
+            privateData={privateData}
+          /> : null
+        }
+      </div>
+    );
   }
 }
 

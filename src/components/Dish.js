@@ -1,5 +1,6 @@
 import React from 'react';
 import EditButton from './EditButton';
+// import ReactDatalist from 'react-datalist';
 
 class DishName extends React.Component {
   constructor(props){
@@ -29,41 +30,6 @@ class DishName extends React.Component {
   }
 }
 
-class IngredientSearchResultTray extends React.Component {
-  render() {
-    // If there is result, show them. Otherwise, show loading gif
-    if (this.props.resultAvailable === true) {
-      // Show results
-      if (this.props.results) {
-        console.log('results:', this.props.results);
-      } else {
-        console.log('no results yet');
-        
-      }
-      
-      return (
-        <div className='ingredientResultTray'>
-          RESULTS FOUND!
-          <datalist id='ingredientResultList'>
-            <select>
-              <option value='first result' />
-              <option value='first result 2' />
-              <option value='Butter' />
-            </select>
-          </datalist>
-        </div>
-      );
-    } else {
-      // Show giff
-      return (
-        <div className='ingredientResultTray'>
-          LOADING...
-        </div>
-      );
-    }
-  }
-}
-
 class AddIngredient extends React.Component {
   constructor(props){
     super(props)
@@ -75,6 +41,7 @@ class AddIngredient extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleResults = this.handleResults.bind(this);
+    this.handleSelection = this.handleSelection.bind(this);
   }
   
   handleChange(event) {
@@ -121,8 +88,14 @@ class AddIngredient extends React.Component {
       results: results
     });
   }
+  
+  // Store selected result within <AddIngredient /> state
+  handleSelection(selection){
+    console.log('<AddIngredient/> selection:', selection);
+  }
 
   render() {
+    console.log('this.state.results:', this.state.results);
     return (
       <div className='addIngredient'>
         <form 
@@ -136,14 +109,24 @@ class AddIngredient extends React.Component {
             value={this.state.value}
             onChange={this.handleChange.bind(null)}
           />
-          { this.state.showSuggestions === true
-            ? <IngredientSearchResultTray
-                resultAvailable={this.state.resultAvailable}
-                results={this.state.results}
-              />
+          <datalist id='ingredientResultList'>
+                <select>
+                  <option value='result'></option>
+                  <option value='first 2'></option>
+                  <option value='Butter'></option>
+                </select>
+              </datalist>
+          {this.state.results
+            ? <datalist id='ingredientResultList'>
+                <select>
+                  <option value='result'></option>
+                  <option value='first 2'></option>
+                  <option value='Butter'></option>
+                </select>
+              </datalist>
             : null
           }
-      
+          
         </form>
       </div>
     );

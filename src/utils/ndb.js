@@ -27,8 +27,21 @@ const getIngredientNdbno = (apiKey, searchKeyWords, callbackFunction) => {
     const url = 'https://api.nal.usda.gov/ndb/search/?format=json&q='+searchKeyWords+'&sort=r&max=25&offset=0&api_key='+apiKey;
     axios.get(url)
     .then(res => {
-      const resultList = res.data.list.item;
-      callbackFunction(resultList);
+      // If the response object contains a .data.lis member, call
+      // callbackFunction with its content.
+      if (res.data.list) {
+        const resultList = res.data.list.item;
+        callbackFunction(resultList); 
+      } else if (res.data.errors){
+        // If the response object contains a .data.errors member,
+        // print the errors in console.
+        res.data.errors.error.map( errorObject => {
+          // console.info('NDB API response:', errorObject.message);
+          return null
+        });
+      } else {
+        console.log('"list" or "errors" members not found in NDB API response. See getIngredientNdbno() declaration for further detail');
+      }
     });
   }
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import EditButton from './EditButton';
-// import ReactDatalist from 'react-datalist';
 
 class DishName extends React.Component {
   constructor(props){
@@ -35,13 +34,12 @@ class AddIngredient extends React.Component {
     super(props)
     this.state = {
       value: this.props.value ? this.props.value : '',
-      resultAvailable: false
+      test: [{ndbno: 'result1'}, {ndbno: 'result2'}]
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleResults = this.handleResults.bind(this);
-    this.handleSelection = this.handleSelection.bind(this);
   }
   
   handleChange(event) {
@@ -55,17 +53,12 @@ class AddIngredient extends React.Component {
     // tray. Otherwise, close suggestion tray
     const searchLength = inputValue.length;
     if (searchLength > 0) {
-      // Show suggestion tray
-      this.setState({showSuggestions: true});
       // Get data from NDBno
       this.props.getIngredientNdbno(
         this.props.privateData.apiKey,  // API key
         inputValue,                     // Value to search
         this.handleResults              // Function to handle search results
       );
-    } else {
-      // Close suggestion tray
-      this.setState({showSuggestions: false});
     }    
   }
 
@@ -83,19 +76,10 @@ class AddIngredient extends React.Component {
 
   // Store results within <AddIngredient /> state
   handleResults(results){
-    this.setState({
-      resultAvailable: true,
-      results: results
-    });
-  }
-  
-  // Store selected result within <AddIngredient /> state
-  handleSelection(selection){
-    console.log('<AddIngredient/> selection:', selection);
+    this.setState({ results: results });
   }
 
   render() {
-    console.log('this.state.results:', this.state.results);
     return (
       <div className='addIngredient'>
         <form 
@@ -103,30 +87,25 @@ class AddIngredient extends React.Component {
         >
           <input
             type='text'
-            name='AddIngredientInput'
+            id='ingredientInput'
             list='ingredientResultList'
             placeholder='Add ingredient!'
             value={this.state.value}
             onChange={this.handleChange.bind(null)}
           />
-          <datalist id='ingredientResultList'>
-                <select>
-                  <option value='result'></option>
-                  <option value='first 2'></option>
-                  <option value='Butter'></option>
-                </select>
-              </datalist>
-          {this.state.results
-            ? <datalist id='ingredientResultList'>
-                <select>
-                  <option value='result'></option>
-                  <option value='first 2'></option>
-                  <option value='Butter'></option>
-                </select>
-              </datalist>
-            : null
-          }
-          
+          <datalist id='ingredientResultList' onChange={this._onChange}>
+            <select>
+              {
+                this.state.results
+                ? this.state.results.map((result,i)=>{
+                    const value = result.ndbno + ' - ' + result.name + '(' + result.group + ')';
+                    const id=result.ndbno;
+                    return <option id={id} value={value} key={i}/>
+                  })
+                : null
+              }
+            </select>
+          </datalist>
         </form>
       </div>
     );
@@ -189,6 +168,7 @@ class Dish extends React.Component {
       this.state.name,          // dish name
       {                         // new ingredient object:
         name: newIngredientName //  - ingredient name
+        // TODO ADD HERE MISSING INGREDIENT NUTRITIONAL VALUES
       }
     );
     // Do not use here event.preventDefault() !!
